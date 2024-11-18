@@ -1,33 +1,44 @@
 #include<iostream>
 
-void increment1(int* value)
+#define LOG(x) std::cout << x << std::endl
+
+class Log
 {
-	(*value)++;
-}
-//传过来的是引用，不是指针，相当于传来a,然后a的别名为value，value++就是a++	
-void increment2(int& value)
-{
-	value++;
-}
+public:
+	const int LogLevelError = 0;
+	const int LogLevelWarning = 1;
+	const int LogLevelInfo = 2;
+private:
+	int m_LogLevel = LogLevelInfo;
+
+
+public:
+
+	void SetLevel(int level)
+	{
+		m_LogLevel = level;
+	}
+
+	void Warn(const char* message)
+	{	
+		if (m_LogLevel >= 0)
+			LOG("[ERROR]: " << message);
+		if (m_LogLevel >= 1)
+			LOG("[WARNING]: " << message);
+		if (m_LogLevel >= 2)
+			LOG("[INFO]: " << message);
+	}
+
+};
+
+
+
 int main()
 {
-	int a = 5;
-	int* b = &a;
-	// 引用的本质是起"别名"，引用的本质是指针，引用的本质是指针常量
-	int& ref = a;
-	increment1(&a);
-	
-	std::cout << a<< std::endl;
-	// print a=5+1
-	ref = 10;
-	increment2(a);
-	std::cout << a << std::endl;
-	// print a=10+1
-	
-	std::cout << a;
-	std::cin.get();	
-
-	return 0;
+	Log log;
+	log.SetLevel(log.LogLevelWarning);
+	log.Warn("Hello!");
+	std::cin.get();
 
 
 }
