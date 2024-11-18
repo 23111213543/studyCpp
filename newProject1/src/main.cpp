@@ -2,45 +2,59 @@
 
 #define LOG(x) std::cout << x << std::endl
 
-class Log
+class Entity
 {
 public:
-	enum LogLevel
+	float X, Y;
+
+	void Move(float xa, float ya)
 	{
-		LogLevelError = 0,
-		LogLevelWarning,
-		LogLevelInfo
+		X += xa;
+		Y += ya;
 	};
-private:
-	LogLevel m_LogLevel = LogLevelInfo;
 
-
-public:
-
-	void SetLevel(LogLevel level)
-	{
-		m_LogLevel = level;
-	}
-
-	void Warn(const char* message)
-	{	
-		if (m_LogLevel >= 0)
-			LOG("[ERROR]: " << message);
-		if (m_LogLevel >= 1)
-			LOG("[WARNING]: " << message);
-		if (m_LogLevel >= 2)
-			LOG("[INFO]: " << message);
-	}
 
 };
 
+class Player : public Entity
+{
 
+public:
+	const char* Name;
+
+	void PrintName(const char* name)
+	{
+		Name = name;
+		LOG(Name);
+	}
+};
 
 int main()
-{
-	Log log;
-	log.SetLevel(log.LogLevelWarning);
-	log.Warn("Hello!");
+{	
+
+	std::cout << sizeof(Entity) << std::endl;
+	std::cout << sizeof(Player) << std::endl;
+	#include <iostream>
+
+	std::cout << "Size of int: " << sizeof(int) << " bytes" << std::endl;
+	std::cout << "Size of long int: " << sizeof(long int) << " bytes" << std::endl;
+	std::cout << "Size of short int: " << sizeof(short int) << " bytes" << std::endl;
+	std::cout << "Size of short: " << sizeof(short) << " bytes" << std::endl;
+	std::cout << "Size of long: " << sizeof(long) << " bytes" << std::endl;
+	std::cout << "Size of long long int: " << sizeof(long long int) << " bytes" << std::endl;
+	std::cout << "Size of long long: " << sizeof(long long) << " bytes" << std::endl;
+	std::cout << "Size of char: " << sizeof(char) << " bytes" << std::endl;
+	std::cout << "Size of double: " << sizeof(double) << " bytes" << std::endl;
+	std::cout << "Size of bool: " << sizeof(bool) << " bytes" << std::endl;
+	std::cout << "Size of float: " << sizeof(float) << " bytes" << std::endl;
+	
+
+
+
+	Player player;
+	player.Move(5, 5);
+	player.X = 2;
+
 	std::cin.get();
 
 
