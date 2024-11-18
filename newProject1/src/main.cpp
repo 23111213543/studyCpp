@@ -8,9 +8,9 @@ int main()
 	ptr = &var;
 	//新的指针指向原指针的地址，存着ptr的地址
 	int** ptr2 = &ptr;
- // 逆向指针改指向的数据
+	// 逆向指针改指向的数据
 	*ptr = 10;
-//初始化指针指向的数据为100
+	//初始化指针指向的数据为100
 	int* ptr3 = new int(10);
 	// 指针指向的数据内容为 a ,ASCII码61
 	char* ptr4 = new char('a');	
