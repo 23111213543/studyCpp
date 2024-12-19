@@ -20,8 +20,12 @@ public:
 	//初始化列表的效率：初始化列表的效率要高于在构造函数体内进行赋值操作，因为初始化列表是直接初始化成员变量，而不是先默认构造再赋值
 	//常量和引用成员：常量成员和引用成员只能在初始化列表中进行初始化，不能在构造函数体内进行赋值操作
 	//基类初始化：派生类的构造函数不能在构造函数体内调用基类的构造函数，必须使用初始化列表
-    MyClass(int x, int y, int constValue) : Base(x + y), m_ConstValue(constValue), m_X(x), m_Y(y) {
+    MyClass(int x, int y, int constValue)
+		: Base(x + y), m_ConstValue(constValue), m_X(x), m_Y(y) {
         std::cout << "MyClass initialized using initialization list" << std::endl;
+        std::cout << "m_ConstValue:"<<m_ConstValue << std::endl;
+		std::cout << "m_X:" << m_X << std::endl;
+		std::cout << "m_Y:" << m_Y << std::endl;
     }
 
     // 在构造函数体内使用 this-> 进行初始化
@@ -36,6 +40,9 @@ public:
         this->m_X = x;
         this->m_Y = y;
         std::cout << "MyClass initialized using this-> in constructor body" << std::endl;
+		std::cout << "m_ConstValue:" << m_ConstValue << std::endl;
+		std::cout << "m_X:" << m_X << std::endl;
+		std::cout << "m_Y:" << m_Y << std::endl;
     }
 };
 
