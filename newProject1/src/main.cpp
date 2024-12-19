@@ -1,54 +1,84 @@
 #include <iostream>
-
-class Base {
-public:
-    Base(int value) {
-        std::cout << "Base initialized with value: " << value << std::endl;
-    }
-};
-
-class MyClass : public Base {
+#include <string>
+class String
+{
 private:
-    const int m_ConstValue;
-    int m_X;
-    int m_Y;
+	char* m_Buffer;
+	unsigned int m_Size;
 public:
-    // 使用初始化列表
-	// 初始化列表的语法：在构造函数的参数列表后面使用冒号（:）进行初始化列表，然后在初始化列表中以逗号分隔的形式初始化成员变量
-	// 初始化列表的优点：初始化列表可以保证成员变量的初始化顺序，避免了成员变量初始化顺序不确定的问题
-	//初始化列表的语法：在构造函数的参数列表后面使用冒号（:）进行初始化列表，然后在初始化列表中以逗号分隔的形式初始化成员变量
-	//初始化列表的效率：初始化列表的效率要高于在构造函数体内进行赋值操作，因为初始化列表是直接初始化成员变量，而不是先默认构造再赋值
-	//常量和引用成员：常量成员和引用成员只能在初始化列表中进行初始化，不能在构造函数体内进行赋值操作
-	//基类初始化：派生类的构造函数不能在构造函数体内调用基类的构造函数，必须使用初始化列表
-    MyClass(int x, int y, int constValue)
-		: Base(x + y), m_ConstValue(constValue), m_X(x), m_Y(y) {
-        std::cout << "MyClass initialized using initialization list" << std::endl;
-        std::cout << "m_ConstValue:"<<m_ConstValue << std::endl;
-		std::cout << "m_X:" << m_X << std::endl;
-		std::cout << "m_Y:" << m_Y << std::endl;
-    }
+	String(const char* string)
+	{
+		m_Size = strlen(string);
+		m_Buffer = new char[m_Size + 1];
+		memcpy(m_Buffer, string, m_Size);
+		m_Buffer[m_Size] = 0;
+		
+	}
+	//这个友元函数是一个重载的<<运算符，用于将String对象输出到标准输出流（如std::cout）。
+	// 具体来说，这段代码声明了一个友元函数，使得std::ostream& operator<<(std::ostream& stream, const String& string)可以访问String类的私有成员m_Buffer。
+	// 这样，当你使用std::cout << stringObject; 时，程序会调用这个友元函数，将String对象的内容输出到控制台
+	friend std::ostream& operator<<(std::ostream& stream, const String& string);
+	
+	//重载[]运算符
+	//重载[]运算符的目的是让String类的对象可以像数组一样使用下标运算符[]。
+	// 例如，如果你有一个String对象string，你可以使用string[0]来访问字符串的第一个字符。
+	char& operator[](unsigned int index)
+	{
+		return m_Buffer[index];
+	}
+	// Destructor
+	~String()
+	{
+		delete[] m_Buffer;
+	}
 
-    // 在构造函数体内使用 this-> 进行初始化
-	// 注意：这种方式不是最佳实践，因为在构造函数体内使用 this-> 进行初始化会导致成员变量的初始化顺序不确定
-	// 例如：m_ConstValue 会在 m_X 和 m_Y 之前初始化
-	// 但是在初始化列表中，成员变量的初始化顺序是确定的
-	// 所以，最佳实践是使用初始化列表进行初始化
-    //效率较低：在构造函数体内进行赋值操作，成员变量会先被默认构造，然后再赋值，可能会导致不必要的性能开销。
-    //常量成员和引用成员：常量成员和引用成员不能在构造函数体内进行赋值初始化，必须使用初始化列表。
-    //基类初始化：派生类的构造函数不能在构造函数体内调用基类的构造函数，必须使用初始化列表。
-    MyClass(int x, int y) : Base(x + y), m_ConstValue(0) {
-        this->m_X = x;
-        this->m_Y = y;
-        std::cout << "MyClass initialized using this-> in constructor body" << std::endl;
-		std::cout << "m_ConstValue:" << m_ConstValue << std::endl;
-		std::cout << "m_X:" << m_X << std::endl;
-		std::cout << "m_Y:" << m_Y << std::endl;
-    }
+	// Copy Constructor
+	//拷贝构造函数是一种特殊的构造函数，它在创建对象时，使用同一类的另一个对象来初始化新对象。
+
+	//拷贝构造函数通常用于：
+		//1. 通过使用另一个同类型的对象来初始化新创建的对象。
+		//2. 复制对象把它作为参数传递给函数。
+		//3. 复制对象，并从函数返回这个对象。
+	//拷贝构造函数的声明和定义如下：
+	String(const String& other)
+		: m_Size(other.m_Size)
+	{
+		std::cout << "Copied String!" << std::endl;	
+		m_Buffer = new char[m_Size + 1];
+		memcpy(m_Buffer, other.m_Buffer, m_Size + 1);
+		m_Buffer[m_Size] = 0;
+	}
+	//String(const String& other)=delete; //禁用拷贝构造函数,这样就不能直接复制string到second
 };
 
+std::ostream& operator<<(std::ostream& stream, const String& string)
+{
+	stream << string.m_Buffer;
+	return stream;
+}
+//函数传参如果不加&，会复制一次，外部的second复制给内部参数string，增加时间调用深拷贝
+void PrintString(const String& string)
+{
+	std::cout << string << std::endl;
+}
 int main() {
-    MyClass obj1(1, 2, 3); // 使用初始化列表
-    MyClass obj2(4, 5);    // 在构造函数体内使用 this-> 进行初始化
+	String string = "Cherno";
+	//直接复制string到second，这个错误发生的原因是 String 类没有实现正确的拷贝构造函数，导致 m_Buffer 指针被浅拷贝。当析构函数被调用时，会尝试删除同一块内存两次，从而导致双重删除错误。
+	//这可能是因为：
+		//1.	默认的拷贝构造函数被使用，它对 m_Buffer 指针进行了浅拷贝。
+		//2.	当 second 作为 string 的副本创建时，这两个对象共享同一个 m_Buffer 指针。
+		//3.	当 string 和 second 的析构函数被调用时，它们都尝试删除同一块内存，导致双重删除。
+	//解决这个问题的方法是实现一个正确的拷贝构造函数，它会为 second 分配一个新的内存块，并将 string 的内容复制到这个新的内存块中。
+	//这样，当 string 和 second 被销毁时，它们会分别删除各自的内存块，而不会导致双重删除错误。
+	String second = string;
 
-    return 0;
+	//second[2]= 'a'; 等号右边是一个char类型，左边是char*类型，
+	second[2] = 'a';
+	//这个没有调用拷贝构造函数，因为这个是直接赋值，不是初始化
+
+	PrintString(string);
+	PrintString(second);
+	
+	std::cin.get();
+	
 }
