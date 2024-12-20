@@ -38,7 +38,8 @@ int main() {
 	std::cout << numbers << std::endl;
     // 访问元素
     std::cout << "Element at index 0: " << numbers[0] << std::endl;
-    std::cout << "Element at index 1: " << numbers.at(1) << std::endl;
+    std::cout << "Element at index 1: " << numbers.at(20) << std::endl;//
+	//at()方法会检查索引是否越界，如果越界会抛出异常, []不会检查索引是否越界，如果越界会导致未定义行为, 所以at()更安全, at越界返回
 
     // 遍历元素
     std::cout << "Elements in the vector and every+1: ";
@@ -59,7 +60,7 @@ int main() {
     }
     std::cout << std::endl;
 
-    // 获取大小
+    // 获取占用内存大小
     std::cout << "Size of the vector: " << numbers.size() << std::endl;
 
 	// 检查是否为空，如果为空返回 true，否则返回 false
