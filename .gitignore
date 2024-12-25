@@ -8,3 +8,9 @@
 /.vs/newProject1/v17
 /bin/x64/Debug/newProject1.pdb
 /bin/x64/Debug/newProject1.exe
+/bin/intermediates/x64/Debug/main.obj
+/bin/intermediates/x64/Debug/newProject1.exe.recipe
+/bin/intermediates/x64/Debug/newProject1.ilk
+/bin/intermediates/x64/Debug/newProject1.log
+/bin/intermediates/x64/Debug/vc143.idb
+/bin/intermediates/x64/Debug/vc143.pdb
