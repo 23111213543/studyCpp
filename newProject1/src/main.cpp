@@ -38,7 +38,7 @@ int main() {
 	std::cout << numbers << std::endl;
     // 访问元素
     std::cout << "Element at index 0: " << numbers[0] << std::endl;
-    std::cout << "Element at index 1: " << numbers.at(20) << std::endl;//
+    std::cout << "Element at index 1: " << numbers.at(5) << std::endl;//
 	//at()方法会检查索引是否越界，如果越界会抛出异常, []不会检查索引是否越界，如果越界会导致未定义行为, 所以at()更安全, at越界返回
 
     // 遍历元素
@@ -142,20 +142,8 @@ int main() {
     vertices2[2] = Vertex(7, 8, 9);
     std::cout << "After assignment, size: " << vertices2.size() << ", capacity: " << vertices2.capacity() << std::endl;
 
-  
-
 
 	std::cin.get();
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 }
