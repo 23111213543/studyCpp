@@ -49,7 +49,7 @@
 int main() {
 
     Print("Hello World!");
-    std::cout << "当前文件名: " << __FILE__ << std::endl;
+    std::cout << "当前文件名: " << __FILE__ << std::endl;//C:\Dev\C++\newproject\newProject1\src\main.cpp
     std::cout << "当前行号: " << __LINE__ << std::endl;
     std::cout << "编译日期: " << __DATE__ << std::endl;
     std::cout << "编译时间: " << __TIME__ << std::endl;
