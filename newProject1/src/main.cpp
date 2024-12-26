@@ -22,8 +22,8 @@ int main()
 	PrintArray(arr);
 	//arr[6] = 6;	
 	
-	//缺点：调试的时候会显示错误，但是不会报错，可以正常运行生成exe
-	//编译器不会检查数组越界，但是调试器会检查数组越界
+	//缺点：调试的时候会显示错误，但是不会编译报错，可以正常运行生成exe
+	//编译器不会检查数组越界，但是调试器会检查数组越界，显示debug assertion failed
 	
 	std::cout << arr.size() << std::endl;
 
