@@ -1,64 +1,67 @@
 #include <iostream>
+#include <string>
 #include <vector>
+#include<typeinfo>
 #include <algorithm> 
-//宏macro：实际上是一个查找替换的过程，编译器会在编译之前将宏替换为对应的内容
-//宏定义的格式：#define 宏名 宏体
-//1.	对象宏（Object-like Macros）：用于定义常量或简单的文本替换
-#define WAIT std::cin.get()
-#define Print(x) std::cout << x << std::endl
 
 
-//2.	函数宏（Function-like Macros）：用于定义带参数的宏
-#define SQUARE(x) ((x) * (x))
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+std::string GetName() {
+	return "Cherno";
+}
+//明确指定返回类型，return "Cherno"; 返回一个字符串字面量。由于字符串字面量是 const char* 类型，编译器会自动将其转换为 std::string 类型。
+auto GetName2() -> std::string {
+	return "Cherno";
+}
 
-//3.	条件编译（Conditional Compilation）：用于根据条件编译代码, “定义在项目属性中，C++预处理器中” 包含ifdef，
-#ifdef DEBUG
-#define LOG(x) std::cout << x << std::endl
-#else
-#define LOG(x)
-#endif
-//endif 与 ifdef 之间的代码只有在 DEBUG 被定义的情况下才会被编译，否则会被忽略
-
-//4.	#include 指令：用于包含头文件
-//#include <iostream>
-//#include "myheader.h"
-
-//5.	#undef 指令：用于取消宏定义
-//#undef MAX
-
-//6.预定义宏（Predefined Macros）：由编译器预定义的宏
-//__LINE__：当前源文件的行号
-//__FILE__：当前源文件的文件名
- //__DATE__：当前编译日期
-//__TIME__：当前编译时间
-//__cplusplus：当前编译器是否支持 C++ 标准，__cplusplus 是一个数字，表示 C++ 标准的年份
-//__STDC__：当前编译器是否支持 C 标准
-//__STDC_HOSTED__：当前编译器是否运行在宿主环境，宿主环境是指完整的操作系统环境
-//__STDC_VERSION__：当前编译器所支持的 C 标准版本
-//__STDCPP_STRICT_POINTER_SAFETY__：当前编译器是否支持严格指针安全
-//__STDCPP_THREADS__：当前编译器是否支持多线程
-
-//__STDC_ISO_10646__：当前编译器是否支持 ISO 10646 字符集
-//__STDC_MB_MIGHT_NEQ_WC__：当前编译器是否支持多字节字符集
-//__STDCPP_DEFAULT_NEW_ALIGNMENT__：当前编译器默认的 new 对齐方式
-
-
-
+auto GetName3()  {
+	return "Cherno";
+}
 
 int main() {
+    auto a = 5;
+	auto b = a;
+	std::cout << "a:" << a << std::endl;
+	std::cout << "b:" << b << std::endl;
 
-    Print("Hello World!");
-    std::cout << "当前文件名: " << __FILE__ << std::endl;//C:\Dev\C++\newproject\newProject1\src\main.cpp
-    std::cout << "当前行号: " << __LINE__ << std::endl;
-    std::cout << "编译日期: " << __DATE__ << std::endl;
-    std::cout << "编译时间: " << __TIME__ << std::endl;
-	std::cout << "C++标准年份: " << __cplusplus << std::endl; //199711
+	auto c = 5l;
+	std::cout << "c size:" << sizeof(c) << std::endl; //c size : 4
+		
+	std::cout << "Type of c: " << typeid(c).name() << std::endl;//Type of c: long
 
-	std::cout << "是否支持多线程: " << __STDCPP_THREADS__ << std::endl;//1表示支持多线程
+	auto d = 5.0f;
+	std::cout << "d size:" << sizeof(d) << std::endl; //d size : 4
+	std::cout << "Type of d: " << typeid(d).name() << std::endl;//Type of d: float
 
+	auto e = 5.0;
+	std::cout << "e size:" << sizeof(e) << std::endl; //e size : 8
+	std::cout << "Type of e: " << typeid(e).name() << std::endl;//Type of e: double
 
-	WAIT;//不建议这样改变代码的执行流程，这样会让代码变得难以理解
+	auto f = 5.0L;
+	std::cout << "f size:" << sizeof(f) << std::endl; //f size : 8 
+	std::cout << "Type of f: " << typeid(f).name() << std::endl;//Type of f: long double
+
+	auto g = "Cherno";
+	std::cout << "g size:" << sizeof(g) << std::endl; //g size : 8
+	std::cout << "Type of g: " << typeid(g).name() << std::endl;//Type of g:  char const * __ptr64  8*8=64
+
+	auto h = GetName();
+
+	int i = h.size();
+	std::cout << "string length:" << i << std::endl; //"Cherno" 6 char ,so length is 6
+
+	auto j = GetName3(); //j is const char*
+	//int k = j.size();   //error: request for member 'size' in 'j', which is of non-class type 'const char*'
+	//std::cout << "string length:" << k << std::endl; //"Cherno" 6 char ,so length is 6
+	
+	//auto的优点在于自动推导类型，但是在某些情况下，auto并不是一个好的选择，比如在函数参数中，auto无法推导出类型，所以在函数参数中，我们应该使用明确的类型。
+	//而且通常我们不知道auto推导出来的类型什么时候改变，所以在代码中应该尽量避免使用auto，除非必要的情况下。
+
+	for(auto& k : h)
+	{
+		std::cout << k << std::endl;	
+	}
+	//output:c h e r n o
+	
 };
     
     
