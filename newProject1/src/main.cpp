@@ -1,66 +1,69 @@
 #include <iostream>
 #include <string>
+#include<array>
 #include <vector>
 #include<typeinfo>
 #include <algorithm> 
+#include <ctime>
 
 
-std::string GetName() {
-	return "Cherno";
-}
-//明确指定返回类型，return "Cherno"; 返回一个字符串字面量。由于字符串字面量是 const char* 类型，编译器会自动将其转换为 std::string 类型。
-auto GetName2() -> std::string {
-	return "Cherno";
-}
-
-auto GetName3()  {
-	return "Cherno";
-}
-
-int main() {
-    auto a = 5;
-	auto b = a;
-	std::cout << "a:" << a << std::endl;
-	std::cout << "b:" << b << std::endl;
-
-	auto c = 5l;
-	std::cout << "c size:" << sizeof(c) << std::endl; //c size : 4
-		
-	std::cout << "Type of c: " << typeid(c).name() << std::endl;//Type of c: long
-
-	auto d = 5.0f;
-	std::cout << "d size:" << sizeof(d) << std::endl; //d size : 4
-	std::cout << "Type of d: " << typeid(d).name() << std::endl;//Type of d: float
-
-	auto e = 5.0;
-	std::cout << "e size:" << sizeof(e) << std::endl; //e size : 8
-	std::cout << "Type of e: " << typeid(e).name() << std::endl;//Type of e: double
-
-	auto f = 5.0L;
-	std::cout << "f size:" << sizeof(f) << std::endl; //f size : 8 
-	std::cout << "Type of f: " << typeid(f).name() << std::endl;//Type of f: long double
-
-	auto g = "Cherno";
-	std::cout << "g size:" << sizeof(g) << std::endl; //g size : 8
-	std::cout << "Type of g: " << typeid(g).name() << std::endl;//Type of g:  char const * __ptr64  8*8=64
-
-	auto h = GetName();
-
-	int i = h.size();
-	std::cout << "string length:" << i << std::endl; //"Cherno" 6 char ,so length is 6
-
-	auto j = GetName3(); //j is const char*
-	//int k = j.size();   //error: request for member 'size' in 'j', which is of non-class type 'const char*'
-	//std::cout << "string length:" << k << std::endl; //"Cherno" 6 char ,so length is 6
-	
-	//auto的优点在于自动推导类型，但是在某些情况下，auto并不是一个好的选择，比如在函数参数中，auto无法推导出类型，所以在函数参数中，我们应该使用明确的类型。
-	//而且通常我们不知道auto推导出来的类型什么时候改变，所以在代码中应该尽量避免使用auto，除非必要的情况下。
-
-	for(auto& k : h)
-	{
-		std::cout << k << std::endl;	
+void PrintArray(const std::array<int, 5>& arr) {
+	for (const auto& elem : arr) {
+		std::cout << elem << " ";
 	}
-	//output:c h e r n o
+	std::cout << std::endl;
+}
+
+int main() 
+{
+	
+
+	std::array<int, 5> arr = { 1, 2, 3, 4, 5 };
+	PrintArray(arr);
+	//arr[6] = 6;	
+	
+	//缺点：调试的时候会显示错误，但是不会报错，可以正常运行生成exe
+	//编译器不会检查数组越界，但是调试器会检查数组越界
+	
+	std::cout << arr.size() << std::endl;
+
+	//优点array.size可以，但是a.size不可以
+	//1.	类型安全：std::array是一个模板类，提供了类型安全的接口。
+	//2.	固定大小：std::array的大小在编译时确定，不能动态改变，但这也意味着它的大小是固定的。
+	//3.	标准库支持：std::array是C++标准库的一部分，提供了许多有用的成员函数，如size()、at()、fill()等。
+	//4.	与STL兼容：std::array可以与标准模板库（STL）的算法和容器很好地配合使用。
+	//5.	边界检查：std::array的at()方法提供了边界检查，防止越界访问。
+	//6.	性能：std::array的性能与C风格数组相当，因为它是一个固定大小的数组，不需要动态分配内存。
+	int a[5] = { 1,2,3,4,5 };
+	std::cout << "Array: ";
+	for (int i = 0; i < 5; i++) {
+		std::cout << a[i] << " ";
+	}
+	std::cout << std::endl;
+
+	//a[6] = 6;
+	//不可以编译，会报错
+
+	#include <iostream>
+	#include <array>
+
+	
+	
+	std::array<int, 5> arr2 = { 1, 2, 3, 4, 5 };
+	PrintArray(arr);
+
+	// 错误示例：传递了错误类型的数组
+	 std::array<double, 5> wrongArr = {1.1, 2.2, 3.3, 4.4, 5.5};
+	 PrintArray(reinterpret_cast<std::array<int, 5>&>(wrongArr));  // 这种做法会导致编译错误
+
+	return 0;
+
+
+
+
+
+	return 0;
+    
 	
 };
     
