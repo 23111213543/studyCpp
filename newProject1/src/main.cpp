@@ -6,66 +6,66 @@
 #include <algorithm> 
 #include <ctime>
 
-
-void PrintArray(const std::array<int, 5>& arr) {
-	for (const auto& elem : arr) {
-		std::cout << elem << " ";
-	}
-	std::cout << std::endl;
+//静态函数：静态函数在程序的整个生命周期内都存在，但它们的作用域仅限于定义它们的文件
+ void HelloWorld()
+{
+	std::cout << "Hello, World!" << std::endl;
 }
 
-int main() 
+ void HelloWorld2()
+ {
+	 std::cout << "Hello, World!2" << std::endl;
+ }
+
+ void HelloWorld3(int a)
+ {
+	 std::cout << "Hello, World!3 Value a：" <<a<< std::endl;
+
+ }
+
+ void ForeEach(const std::vector<int> &values,void(*function)(int))
+ {
+	 for (int value : values)
+		 function(value);
+ }
+int main()
 {
+	//将函数指针赋值给一个变量，然后调用这个变量。原理是计算器编译的时候将函数存在一段内存中
+	//然后这个函数有一个地址，这个地址就是函数指针，每次调用这个函数的时候，就是调用这个函数指针
+	//函数指针的类型是返回值类型+变量名+参数类型
+	//函数指针的声明方式是返回值类型+(*变量名)+参数类型，
+	auto function = HelloWorld;
+	//function的类型是void(*function)()，也就是返回值是void，变量名是function，参数是空
+	function();
+	
+	function();
+
+	//不使用auto的方式
+	void(*Cherno)();
+
+	Cherno = HelloWorld2;
+
+	Cherno();
+
+	HelloWorld2();
+
 	
 
-	std::array<int, 5> arr = { 1, 2, 3, 4, 5 };
-	PrintArray(arr);
-	//arr[6] = 6;	
-	
-	//缺点：调试的时候会显示错误，但是不会编译报错，可以正常运行生成exe
-	//编译器不会检查数组越界，但是调试器会检查数组越界，显示debug assertion failed
-	
-	std::cout << arr.size() << std::endl;
+	HelloWorld3(8);
 
-	//优点array.size可以，但是a.size不可以
-	//1.	类型安全：std::array是一个模板类，提供了类型安全的接口。
-	//2.	固定大小：std::array的大小在编译时确定，不能动态改变，但这也意味着它的大小是固定的。
-	//3.	标准库支持：std::array是C++标准库的一部分，提供了许多有用的成员函数，如size()、at()、fill()等。
-	//4.	与STL兼容：std::array可以与标准模板库（STL）的算法和容器很好地配合使用。
-	//5.	边界检查：std::array的at()方法提供了边界检查，防止越界访问。
-	//6.	性能：std::array的性能与C风格数组相当，因为它是一个固定大小的数组，不需要动态分配内存。
-	int a[5] = { 1,2,3,4,5 };
-	std::cout << "Array: ";
-	for (int i = 0; i < 5; i++) {
-		std::cout << a[i] << " ";
-	}
-	std::cout << std::endl;
+	//实用函数指针的例子
+    std::vector<int> values = { 1,2,3,4,5 };
+    ForeEach(values, [](int value) { std::cout << value << std::endl; });
 
-	//a[6] = 6;
-	//不可以编译，会报错
-
-	#include <iostream>
-	#include <array>
-
-	
-	
-	std::array<int, 5> arr2 = { 1, 2, 3, 4, 5 };
-	PrintArray(arr);
-
-	// 错误示例：传递了错误类型的数组
-	 std::array<double, 5> wrongArr = {1.1, 2.2, 3.3, 4.4, 5.5};
-	 PrintArray(reinterpret_cast<std::array<int, 5>&>(wrongArr));  // 这种做法会导致编译错误
-
-	return 0;
+	std::for_each(values.begin(), values.end(), [](int value) { std::cout << value << std::endl; });
 
 
 
 
+	std::cin.get();	
 
-	return 0;
-    
-	
 };
-    
+
+
     
 
