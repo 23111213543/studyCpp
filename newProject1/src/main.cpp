@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include<array>
 #include <vector>
@@ -6,65 +6,65 @@
 #include <algorithm> 
 #include <ctime>
 
-//¾²Ì¬º¯Êı£º¾²Ì¬º¯ÊıÔÚ³ÌĞòµÄÕû¸öÉúÃüÖÜÆÚÄÚ¶¼´æÔÚ£¬µ«ËüÃÇµÄ×÷ÓÃÓò½öÏŞÓÚ¶¨ÒåËüÃÇµÄÎÄ¼ş
- void HelloWorld()
-{
-	std::cout << "Hello, World!" << std::endl;
+
+
+int main() {
+	// lambdaè¡¨è¾¾å¼
+    //[capture](parameters) -> return_type { body }
+    //â€¢	captureï¼šæ•è·åˆ—è¡¨ï¼Œç”¨äºæ•è·å¤–éƒ¨å˜é‡ã€‚
+    //    â€¢	parametersï¼šå‚æ•°åˆ—è¡¨ï¼Œç±»ä¼¼äºæ™®é€šå‡½æ•°çš„å‚æ•°åˆ—è¡¨ã€‚
+    //    â€¢	return_typeï¼šè¿”å›ç±»å‹ï¼Œå¯ä»¥çœç•¥ï¼Œç¼–è¯‘å™¨ä¼šè‡ªåŠ¨æ¨æ–­ã€‚
+    //    â€¢	bodyï¼šå‡½æ•°ä½“ï¼ŒåŒ…å«è¦æ‰§è¡Œçš„ä»£ç 
+
+	auto greet = []() { std::cout << "Hello, World!" << std::endl; };//greetç±»å‹ä¸ºlambdaè¡¨è¾¾å¼ï¼Œå®šä¹‰ä¸€ä¸ªlambdaè¡¨è¾¾å¼ï¼Œå¹¶å°†å…¶èµ‹å€¼ç»™ä¸€ä¸ªå˜é‡greetã€‚
+    greet();  // è°ƒç”¨lambdaè¡¨è¾¾å¼
+
+	// æ•è·å¤–éƒ¨å˜é‡
+    int x = 10;
+    auto printX = [x]() { std::cout << "x = " << x << std::endl; };
+    printX();  // è¾“å‡ºï¼šx = 10
+
+	// ä¿®æ”¹å¤–éƒ¨å˜é‡
+	auto incrementX = [&x]() { x++; };
+
+	// è¾“å‡ºxçš„å€¼
+	std::cout << "x = " << x << std::endl;  // è¾“å‡ºï¼šx = 10
+
+    //åœ¨STLç®—æ³•ä¸­ä½¿ç”¨lambdaè¡¨è¾¾å¼
+    std::vector<int> values = { 1, 2, 3, 4, 5 };
+    std::for_each(values.begin(), values.end(), [](int value) { std::cout << value << " "; });
+    std::cout << std::endl;  // è¾“å‡ºï¼š1 2 3 4 5
+
+    
+
+
+    //æŒ‰å€¼æ•è·å¤šä¸ªå¤–éƒ¨å˜é‡
+    int factor = 2;
+    int offset = 3;
+    std::vector<int> values = { 1, 2, 3, 4, 5 };
+
+    // æŒ‰å€¼æ•è·factorå’Œoffset
+	//lanbdaè¡¨è¾¾å¼ä¸­ï¿½ï¿½ï¿½å‚æ•°åˆ—è¡¨ä¸­çš„å‚æ•°åä¸ä¸€å®šè¦å’Œå¤–éƒ¨å˜é‡åä¸€æ ·,åªè¦ç±»å‹åŒ¹é…å³å¯,ä¾‹å¦‚è¿™é‡Œçš„value,è¿™ä¸ªlambdaæ˜¯ä¸€ä¸ªåŒ¿åå‡½æ•°,å®ƒçš„å‚æ•°æ˜¯value,å¯¹valueè¿›è¡Œä¹˜æƒé‡ï¼ŒåŠ åç§»é‡çš„æ“ä½œ
+    std::for_each(values.begin(), values.end(), [factor, offset](int value) {
+        std::cout << (value * factor + offset) << " ";
+        });
+    std::cout << std::endl;  // è¾“å‡ºï¼š5 7 9 11 13
+
+
+
+    std::vector<int> values2 = { 1, 2, 3, 4, 5 };
+    // ä½¿ç”¨std::find_ifæŸ¥æ‰¾ç¬¬ä¸€ä¸ªå¤§äº3çš„å…ƒç´ 
+    auto it = std::find_if(values2.begin(), values2.end(), [](int value) { return value > 3;});
+
+    if (it != values.end()) {
+        std::cout << "ç¬¬ä¸€ä¸ªå¤§äº3çš„å…ƒç´ æ˜¯: " << *it << std::endl;
+    }
+    else {
+        std::cout << "æ²¡æœ‰æ‰¾åˆ°å¤§äº3çš„å…ƒç´ " << std::endl;
+    }
+
+    return 0;
 }
-
- void HelloWorld2()
- {
-	 std::cout << "Hello, World!2" << std::endl;
- }
-
- void HelloWorld3(int a)
- {
-	 std::cout << "Hello, World!3 Value a£º" <<a<< std::endl;
-
- }
-
- void ForeEach(const std::vector<int> &values,void(*function)(int))
- {
-	 for (int value : values)
-		 function(value);
- }
-int main()
-{
-	//½«º¯ÊıÖ¸Õë¸³Öµ¸øÒ»¸ö±äÁ¿£¬È»ºóµ÷ÓÃÕâ¸ö±äÁ¿¡£Ô­ÀíÊÇ¼ÆËãÆ÷±àÒëµÄÊ±ºò½«º¯Êı´æÔÚÒ»¶ÎÄÚ´æÖĞ
-	//È»ºóÕâ¸öº¯ÊıÓĞÒ»¸öµØÖ·£¬Õâ¸öµØÖ·¾ÍÊÇº¯ÊıÖ¸Õë£¬Ã¿´Îµ÷ÓÃÕâ¸öº¯ÊıµÄÊ±ºò£¬¾ÍÊÇµ÷ÓÃÕâ¸öº¯ÊıÖ¸Õë
-	//º¯ÊıÖ¸ÕëµÄÀàĞÍÊÇ·µ»ØÖµÀàĞÍ+±äÁ¿Ãû+²ÎÊıÀàĞÍ
-	//º¯ÊıÖ¸ÕëµÄÉùÃ÷·½Ê½ÊÇ·µ»ØÖµÀàĞÍ+(*±äÁ¿Ãû)+²ÎÊıÀàĞÍ£¬
-	auto function = HelloWorld;
-	//functionµÄÀàĞÍÊÇvoid(*function)()£¬Ò²¾ÍÊÇ·µ»ØÖµÊÇvoid£¬±äÁ¿ÃûÊÇfunction£¬²ÎÊıÊÇ¿Õ
-	function();
-	
-	function();
-
-	//²»Ê¹ÓÃautoµÄ·½Ê½
-	void(*Cherno)();
-
-	Cherno = HelloWorld2;
-
-	Cherno();
-
-	HelloWorld2();
-
-	
-
-	HelloWorld3(8);
-
-	//ÊµÓÃº¯ÊıÖ¸ÕëµÄÀı×Ó
-    std::vector<int> values = { 1,2,3,4,5 };
-    ForeEach(values, [](int value) { std::cout << value << std::endl; });
-
-	std::for_each(values.begin(), values.end(), [](int value) { std::cout << value << std::endl; });
-
-
-
-
-	std::cin.get();	
-
-};
 
 
     
